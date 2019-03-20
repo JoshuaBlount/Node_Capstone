@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: L1mh/DcGXXdg4W9GL5ChdBaiQh/rEo/71rvmr10XUR6EmYkQ3MooeSnFTcSsi49Pw7+42V0zcXJUriRZTwEXdtsZ8LVsIANRDdH9+l70OLW3b7jIxV3I6nS6GCF4zckslY/AJYeeQKHDp7T/HnbFisGVDuJrpWbIqV5NMIJIFEWYlBzbxOQukhRqgtRSnxPEZ+xBrJjxujHsjIO543tNT8dL3k37eCVJ6u5SUSSj6qizzuuqvD+fcpseZbBo/sbqXpU0fgmq7SGhaR9ohQ83rYDooy3JWytt5g21A1iacnKvIns2EA0LpFpKWSLQJMvomrY2NWzf+7Yj7TTfd27JjiPljv4TyvFZYDgn4i1vXUFk5ybpS8/BBjaaCQXrUfPQFFUp5bw+FteSbbiAfE8+p7ZFx54111qmcNbYhZGuCcEh6noNahx3uNKcYCS7RNnBTTBV2K/XYc64GJY8+WZXu+miLYMEeepZhZ52aElwkwwTDACV+DiqrzSvm8IILrQ5X6upGYTxndeMEPGmEz7rv8+ZINHRMAnkYRc0dCIXtoctEbuc1kB3BpNh+a1WKgxtSXj7LZ29/1+JGUZIwL1YygMKyYVDsLIhTwl2A1ZAOKOWDeL9g+i9LSZH6soM6v+m8ottHKLdnWgHiLirrx7JEQYib8/b3NjqKWrBl9cpKdk=
+  app: node-project-capstone 
+  on:
+    repo: JoshuaBlount/Node_Capstone
