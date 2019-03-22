@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const {app, runServer, closeServer} = require('../server');
 const {User} = require('../users');
-const {JWT_SECRET} = require('../config');
+const {JWT_SECRET} = require('config');
 
 const expect = chai.expect;
 
