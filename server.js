@@ -7,16 +7,19 @@ const passport = require('passport');
 
 const { router: usersRouter } = require('./users');
 const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const {router: imageRouter} = require('./images');
 
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
-
 const app = express();
+const config = {
+  autoIndex: false,
+  useNewUrlParser: true,
+};
 
 // Logging
 app.use(morgan('common'));
-
 // CORS
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -33,6 +36,7 @@ passport.use(jwtStrategy);
 
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
+app.use('/api/images', imageRouter);
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
@@ -47,44 +51,15 @@ app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });
 });
 
+mongoose.connect(DATABASE_URL, config).then(() => console.log('Connected to DB'))
+.catch(() => 'Error: Could not connect to DB');
 
-let server;
+app.listen(PORT, () => {
+  console.log(`Your app is listening on port ${PORT}`);
+})
 
-function runServer() {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(DATABASE_URL, err => {
-      if (err) {
-        return reject(err);
-      }
-      server = app
-      .listen(PORT, () => {
-        console.log(`Your app is listening on port ${PORT}`);
-        resolve();
-      })
-        .on('error', err => {
-          mongoose.disconnect();
-          reject(err);
-        });
-    });
-  });
-}
+// if (require.main === module) {
+//   runServer().catch(err => console.error(err));
+// }
 
-function closeServer() {
-  return mongoose.disconnect().then(() => {
-    return new Promise((resolve, reject) => {
-      console.log('Closing server');
-      server.close(err => {
-        if (err) {
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-  });
-}
-
-if (require.main === module) {
-  runServer().catch(err => console.error(err));
-}
-
-module.exports = { app, runServer, closeServer };
+module.exports = { app };
